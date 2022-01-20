@@ -1,6 +1,6 @@
 #include "ft_printf.h"
 
-void ft_str_rev(char *str)
+void ft_strrev(char *str)
 {
 	int i;
 	int l;
@@ -47,18 +47,16 @@ char *dem_to_base(long long num, int base)
 	char *total;
 	int iter;
 	int i;
-	char digit;
 
 	iter = num_digit(num, base);
 	total = ft_strnew(iter);
 	i = 0;
 	while (i < iter)
 	{
-		digit = ft_digit(num, base);
-		total[i] = digit;
+		total[i] = ft_digit(num, base);
 		num /= base;
 		++i;
 	}
-	ft_str_rev(total);
+	ft_strrev(total);
 	return total;
 }

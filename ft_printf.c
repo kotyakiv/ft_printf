@@ -20,7 +20,7 @@ void ft_printf(const char *str, ...)
 			}
             ++i;
 			conversion_specification(str, &i, &flag);
-			print_conversion(flag, &ap);
+			print_conversion(&flag, &ap);
         }
         else
 			ft_putchar(str[i]);
@@ -28,4 +28,3 @@ void ft_printf(const char *str, ...)
     }
     va_end(ap);
 }
- 
