@@ -1,5 +1,6 @@
 SRC = ft_printf.c print_conversion.c conversion_specification.c to_base.c \
-print_decimal.c print_octal.c sub_functions.c print_float.c print_flags.c
+print_decimal.c sub_functions.c print_flags.c print_unsigned.c print_float.c \
+
 OBJ = $(SRC:.c=.o)
 NAME = libftprintf.a
 CFLAGS = -c -Wall -Werror -Wextra

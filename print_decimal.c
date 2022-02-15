@@ -21,14 +21,19 @@ void	print_decimal(t_flags *flag, va_list *ap)
 
 	read_signedarg(&arg, flag, ap);
 	num_dig = num_digit(arg, 10);
-	check_minus(arg, flag);
+	check_minus_arg(arg, flag);
 	print_flag_space(flag);
-	print_b_width(flag, num_dig);
-	print_sign(flag, arg);
+	print_sign_or_hash(flag, num_dig);
 	print_precision(flag, num_dig);
-	if (arg != 0)
-		ft_putllunbr(ft_abs(arg));
-	print_a_width(flag);
+	if (arg)
+	{
+		ft_putllnbr(arg);
+		flag->total += num_dig;
+	}
+	else if (!flag->zero_printed && flag->precision)
+	{
+		ft_putchar('0');
+		flag->total++;
+	}
+	print_width(flag, num_dig, 0);
 }
-
-

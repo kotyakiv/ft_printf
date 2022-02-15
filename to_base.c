@@ -17,6 +17,19 @@ void ft_strrev(char *str)
 	}
 }
 
+int num_undigit(unsigned long long  num, int base)
+{
+	int i;
+
+	i = 0;
+	while (num)
+	{
+		num /= base;
+		i++;
+	}
+	return (i);
+}
+
 int num_digit(long long  num, int base)
 {
 	int i;
@@ -30,7 +43,7 @@ int num_digit(long long  num, int base)
 	return (i);
 }
 
-char ft_digit(long long  num, int base)
+char ft_digit(unsigned long long  num, int base)
 {
 	char digit;
 
@@ -42,16 +55,16 @@ char ft_digit(long long  num, int base)
 }
 
 
-char *dem_to_base(long long num, int base)
+char *dem_to_base(unsigned long long num, int base)
 {
 	char *total;
 	int iter;
-	int i;
+	int i = 0;
 
-	iter = num_digit(num, base);
+	iter = num_undigit(num, base);
 	total = ft_strnew(iter);
 	i = 0;
-	while (i < iter)
+	while (i < iter) 
 	{
 		total[i] = ft_digit(num, base);
 		num /= base;
@@ -60,3 +73,5 @@ char *dem_to_base(long long num, int base)
 	ft_strrev(total);
 	return total;
 }
+
+

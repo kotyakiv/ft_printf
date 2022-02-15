@@ -1,14 +1,12 @@
-#include "ft_printf.h"
+#include <stdio.h>
+
+int ft_printf(const char *str, ...);
 
 int main()
 {
-	double arg = -1067.359999;
-	printf("STD\t%lf\n", arg);
-	ft_printf("MY\t%lf\n", arg);
-	printf("\n");
-
-	arg = 458.356000;
-	printf("STD\t%lf\n", arg);
-	ft_printf("MY\t%lf\n", arg);
+	int a = printf("{%*3d}", 5, 0);
+	printf("%d\n", a);
+	a = ft_printf("{%*3d}", 5, 0);
+	printf("%d\n", a);
 	return 0;
 }

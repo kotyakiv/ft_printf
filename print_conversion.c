@@ -3,54 +3,76 @@
 void	print_char(t_flags *flag, va_list *ap)
 {
 	int arg;
-	int i;
 
 	arg = va_arg(*ap, int);
-	if (flag->width > 1)
-	{
-		i = 1;
-		while (i++ < flag->width)
-			ft_putchar(' ');
-	}
+	print_width(flag, 1, 1);
     ft_putchar(arg);
+	flag->total++;
+	print_width(flag, 1, 0);
 }
 
-void	print_pointer(va_list *ap)
+void	print_pointer(t_flags *flag, va_list *ap)
 {
-	long long arg;
+	unsigned long	arg;
+	int			num_dig;
+	char		*str;
 
-	arg = va_arg(*ap, unsigned long long);
+	arg = va_arg(*ap, unsigned long);
 	if (!arg)
 	{
+		print_width(flag, 5, 1);
 		ft_putstr("(nil)");
+		flag->total += 5;
+		print_width(flag, 5, 0);
 		return ;
 	}
+	num_dig = num_undigit(arg, 16);
+	flag->width -= 2;
+	print_width(flag, num_dig, 1);
 	ft_putstr("0x");
-	ft_putstr(dem_to_base(arg, 16));
+	str = dem_to_base(arg, 16);
+	ft_putstr(str);
+	ft_strdel(&str);
+	flag->total += num_dig + 2;
+	print_width(flag, num_dig, 0);
 }
 
+void	print_str_null(t_flags *flag)
+{
+	flag->width -= 6;
+	print_width(flag, 0, 1);
+	ft_putstr("(null)");
+	flag->total += 6;
+	print_width(flag, 0, 0);
+}
 
 void	print_str(t_flags *flag, va_list *ap)
 {
 	char 	*arg;
+	int		len;
 	int		i;
 
 	arg = va_arg(*ap, char *);
 	if (!arg)
 	{
-		i = 0;
-		while (i++ < flag->width - ft_smaller(flag->precision, ft_strlen(arg)))
-			ft_putchar(' ');
-		ft_putstr("(null)");
+		if (flag->precision >= 6 || flag->precision == -1)
+		{
+			print_str_null(flag);
+			return ;
+		}
+		print_width(flag, 0, 1);
+		print_width(flag, 0, 0);
 		return ;
 	}
+	len = ft_smaller(flag->precision, ft_strlen(arg));
+	print_width(flag, len, 1);
 	i = 0;
-	while (i++ < flag->width - ft_smaller(flag->precision, ft_strlen(arg)))
-		ft_putchar(' ');
-	i = 0;
-	while (i < ft_smaller(flag->precision, ft_strlen(arg)) && arg[i])
+	while (i < len)
+	{
 		ft_putchar(arg[i++]);
-	print_a_width(flag);
+		flag->total++;
+	}
+	print_width(flag, len, 0);
 }
 
 void	print_conversion(t_flags *flag, va_list *ap)
@@ -62,8 +84,8 @@ void	print_conversion(t_flags *flag, va_list *ap)
 	if (flag->specifier == 's')
 		print_str(flag, ap);
 	if (flag->specifier == 'p')
-		print_pointer(ap);
-	if (flag->specifier == 'd')
+		print_pointer(flag, ap);
+	if (flag->specifier == 'd' || flag->specifier == 'i')
 		print_decimal(flag, ap);
 	if (flag->specifier == 'o')
 		print_octal(flag, ap);
