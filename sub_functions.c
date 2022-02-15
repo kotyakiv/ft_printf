@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sub_functions.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/15 15:47:22 by ykot              #+#    #+#             */
+/*   Updated: 2022/02/15 15:47:45 by ykot             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 void	ft_putllnbr(long long n)
@@ -26,8 +38,8 @@ void	ft_putllunbr(unsigned long long n)
 	c = n % 10 + '0';
 	ft_putchar(c);
 }
- 
-long long ft_bigger(long long a, long long b)
+
+long long	ft_bigger(long long a, long long b)
 {
 	if (a > b)
 		return (a);
@@ -35,7 +47,7 @@ long long ft_bigger(long long a, long long b)
 		return (b);
 }
 
-long long ft_smaller(long long a, long long b)
+long long	ft_smaller(long long a, long long b)
 {
 	if (a < b && a >= 0)
 		return (a);
@@ -43,7 +55,7 @@ long long ft_smaller(long long a, long long b)
 		return (b);
 }
 
-void str_toupper(char *str)
+void	str_toupper(char *str)
 {
 	size_t	i;
 

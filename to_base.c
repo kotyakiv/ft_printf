@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   to_base.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/15 15:45:19 by ykot              #+#    #+#             */
+/*   Updated: 2022/02/15 15:47:00 by ykot             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-void ft_strrev(char *str)
+void	ft_strrev(char *str)
 {
-	int i;
-	int l;
-	char temp;
+	int		i;
+	int		l;
+	char	temp;
 
 	l = ft_strlen(str);
 	i = 0;
@@ -17,9 +29,9 @@ void ft_strrev(char *str)
 	}
 }
 
-int num_undigit(unsigned long long  num, int base)
+int	num_undigit(unsigned long long num, int base)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (num)
@@ -30,9 +42,9 @@ int num_undigit(unsigned long long  num, int base)
 	return (i);
 }
 
-int num_digit(long long  num, int base)
+int	num_digit(long long num, int base)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (num)
@@ -43,9 +55,9 @@ int num_digit(long long  num, int base)
 	return (i);
 }
 
-char ft_digit(unsigned long long  num, int base)
+char	ft_digit(unsigned long long num, int base)
 {
-	char digit;
+	char	digit;
 
 	if (num % base > 9)
 		digit = 'a' + num % base - 10;
@@ -54,24 +66,21 @@ char ft_digit(unsigned long long  num, int base)
 	return (digit);
 }
 
-
-char *dem_to_base(unsigned long long num, int base)
+char	*dem_to_base(unsigned long long num, int base)
 {
-	char *total;
-	int iter;
-	int i = 0;
+	char	*total;
+	int		iter;
+	int		i;
 
 	iter = num_undigit(num, base);
 	total = ft_strnew(iter);
 	i = 0;
-	while (i < iter) 
+	while (i < iter)
 	{
 		total[i] = ft_digit(num, base);
 		num /= base;
 		++i;
 	}
 	ft_strrev(total);
-	return total;
+	return (total);
 }
-
-

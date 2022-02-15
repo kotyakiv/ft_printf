@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_conversion.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/15 16:02:32 by ykot              #+#    #+#             */
+/*   Updated: 2022/02/15 17:31:08 by ykot             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 void	print_char(t_flags *flag, va_list *ap)
 {
-	int arg;
+	int	arg;
 
 	arg = va_arg(*ap, int);
 	print_width(flag, 1, 1);
-    ft_putchar(arg);
+	ft_putchar(arg);
 	flag->total++;
 	print_width(flag, 1, 0);
 }
@@ -14,25 +26,22 @@ void	print_char(t_flags *flag, va_list *ap)
 void	print_pointer(t_flags *flag, va_list *ap)
 {
 	unsigned long	arg;
-	int			num_dig;
-	char		*str;
+	int				num_dig;
+	char			*str;
 
 	arg = va_arg(*ap, unsigned long);
-	if (!arg)
-	{
-		print_width(flag, 5, 1);
-		ft_putstr("(nil)");
-		flag->total += 5;
-		print_width(flag, 5, 0);
-		return ;
-	}
 	num_dig = num_undigit(arg, 16);
 	flag->width -= 2;
 	print_width(flag, num_dig, 1);
 	ft_putstr("0x");
-	str = dem_to_base(arg, 16);
-	ft_putstr(str);
-	ft_strdel(&str);
+	if (!arg)
+		ft_putchar('0');
+	else
+	{
+		str = dem_to_base(arg, 16);
+		ft_putstr(str);
+		ft_strdel(&str);
+	}
 	flag->total += num_dig + 2;
 	print_width(flag, num_dig, 0);
 }
@@ -48,7 +57,7 @@ void	print_str_null(t_flags *flag)
 
 void	print_str(t_flags *flag, va_list *ap)
 {
-	char 	*arg;
+	char	*arg;
 	int		len;
 	int		i;
 
