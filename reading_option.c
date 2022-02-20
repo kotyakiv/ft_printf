@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 16:06:54 by ykot              #+#    #+#             */
-/*   Updated: 2022/02/15 16:17:40 by ykot             ###   ########.fr       */
+/*   Updated: 2022/02/20 14:28:13 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ void	read_precision_width(const char *str, int *i, t_flags *flag, int is_pr)
 	while (str[*i] >= '0' && str[*i] <= '9')
 	{
 		char_number[j++] = str[*i];
-		if (j >= 10 && strcmp(char_number, "2147483647") > 0)
-			flag->print_nothing = 1;
 		(*i)++;
 	}
 	if (is_pr)
@@ -94,18 +92,18 @@ void	read_modifier(const char *str, int *i, t_flags *flag)
 	read_dl_mod(str, i, flag);
 }
 
-int	read_specifier(const char *str, int *i, t_flags *flag)
+void	read_star(int *i, t_flags *flag, va_list *ap, int is_prec)
 {
-	if (str[*i] == 'd' || str[*i] == 'i' || str[*i] == 'x' || \
-		str[*i] == 'X' || str[*i] == 'o' || str[*i] == 'c' || \
-		str[*i] == 'p' || str[*i] == 'f' || str[*i] == 's' || \
-		str[*i] == 'u' || str[*i] == 'b' || str[*i] == 'n' || \
-		str[*i] == 'e' || str[*i] == 'E' || str[*i] == 'g')
+	if (!is_prec)
+		flag->width = va_arg(*ap, int);
+	else
+		flag->precision = va_arg(*ap, int);
+	if (!is_prec && flag->width < 0)
 	{
-		flag->specifier = str[*i];
-		return (1);
+		flag->width *= -1;
+		flag->minus = 1;
 	}
-	else if (ft_isalpha(str[*i]))
-		return (2);
-	return (0);
+	else if (is_prec && flag->precision < 0)
+		flag->precision = -1;
+	(*i)++;
 }

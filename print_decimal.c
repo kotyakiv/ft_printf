@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:50:20 by ykot              #+#    #+#             */
-/*   Updated: 2022/02/15 15:50:22 by ykot             ###   ########.fr       */
+/*   Updated: 2022/02/20 14:01:32 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	read_signedarg(long long *arg, t_flags *flag, va_list *ap)
 	else
 		*arg = (int) va_arg(*ap, int);
 }
-
+ 
 void	print_decimal(t_flags *flag, va_list *ap)
 {
 	long long	arg;

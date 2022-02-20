@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:56:03 by ykot              #+#    #+#             */
-/*   Updated: 2022/02/15 16:00:18 by ykot             ###   ########.fr       */
+/*   Updated: 2022/02/20 14:15:58 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	width_first_call(t_flags *flag, int num_dig)
 		flag->width -= ft_bigger(flag->precision, num_dig);
 }
 
-static void	putspace(t_flags *flag)
+void	putspace(t_flags *flag)
 {
 	ft_putchar(' ');
 	flag->total++;

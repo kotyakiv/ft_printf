@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:48:28 by ykot              #+#    #+#             */
-/*   Updated: 2022/02/15 15:48:35 by ykot             ###   ########.fr       */
+/*   Updated: 2022/02/16 17:10:08 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,33 @@ void	print_octal(t_flags *flag, va_list *ap)
 	}
 	print_width(flag, num_dig, 0);
 }
+
+void	print_binary(t_flags *flag, va_list	*ap)
+{
+	unsigned long long	arg;
+	int					num_dig;
+	char				*str;
+
+	read_unsignedarg(&arg, flag, ap);
+	num_dig = num_undigit(arg, 2);
+	check_unarg(arg, flag);
+	print_sign_or_hash(flag, num_dig);
+	print_precision(flag, num_dig);
+	if (arg)
+	{
+		str = dem_to_base(arg, 2);
+		ft_putstr(str);
+		ft_strdel(&str);
+		flag->total += num_dig;
+	}
+	else if (!flag->zero_printed && flag->precision)
+	{
+		ft_putchar('0');
+		flag->total++;
+	}
+	print_width(flag, num_dig, 0);
+}
+
 
 void	print_hexadecimal(t_flags *flag, va_list *ap)
 {

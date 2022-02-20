@@ -4,7 +4,9 @@ int ft_printf(const char *str, ...);
 
 int main()
 {
-	printf("%s\n", 0);
-	ft_printf("%s\n", 0);
+	//int a;
+
+	printf("%f\n", 5.00001);
+    ft_printf("%f\n", 5.00001);
 	return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:50:55 by ykot              #+#    #+#             */
-/*   Updated: 2022/02/15 17:35:23 by ykot             ###   ########.fr       */
+/*   Updated: 2022/02/20 15:42:22 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_flags
 	int		modifier;
 	char	specifier;
 	int		negative;
-	int		print_nothing;
 	int		arg_zero;
 	int		zero_printed;
 	int		spec_num;
@@ -47,8 +46,8 @@ int	ft_printf(const char *str, ...);
 
 void	flag_init(t_flags *flag);
 void	flags_override(t_flags *flag);
-void	read_star(int *i, t_flags *flag, va_list *ap, int is_prec);
-int		conversion_specification(const char *str, int *i, t_flags *flag, va_list *ap);
+void	read_specifier(const char *str, int *i, t_flags *flag);
+void	conversion_specification(const char *str, int *i, t_flags *flag, va_list *ap);
 
 /*
 **	checking
@@ -56,7 +55,7 @@ int		conversion_specification(const char *str, int *i, t_flags *flag, va_list *a
 
 void	check_unarg(unsigned long long arg, t_flags *flag);
 void	check_minus_arg(long long arg, t_flags *flag);
-void	check_minus_f(long double arg, t_flags *flag);
+void	check_minus_arg_f(long double *arg, t_flags *flag);
 void	check_hash_width(t_flags *flag);
 
 /*
@@ -66,7 +65,7 @@ void	check_hash_width(t_flags *flag);
 void	read_flags(const char *str, int *i, t_flags *flag);
 void	read_precision_width(const char *str, int *i, t_flags *flag, int is_prec);
 void	read_modifier(const char *str, int *i, t_flags *flag);
-int		read_specifier(const char *str, int *i, t_flags *flag);
+void	read_star(int *i, t_flags *flag, va_list *ap, int is_prec);
 
 /*
 **	to_base
@@ -94,6 +93,7 @@ void	print_sign_or_hash(t_flags *flag, int num_dig);
 void	width_first_call(t_flags *flag, int num_dig);
 void	print_precision(t_flags *flag, int num_dig);
 void	print_width(t_flags *flag, int num_dig, int first_call);
+void	putspace(t_flags *flag);
 
 /*
 **	sub-functions
@@ -104,6 +104,15 @@ void		ft_putllunbr(unsigned long long n);
 long long 	ft_bigger(long long a, long long b);
 long long 	ft_smaller(long long a, long long b);
 void		str_toupper(char *str);
+
+/*
+**	print_scp
+*/
+
+void	print_percent(t_flags *flag);
+void	print_char(t_flags *flag, va_list *ap);
+void	print_pointer(t_flags *flag, va_list *ap);
+void	print_str(t_flags *flag, va_list *ap);
 
 /*
 **	print_decimal
@@ -120,14 +129,13 @@ void	read_unsignedarg(unsigned long long *arg, t_flags *flag, va_list *ap);
 void	print_unsigned(t_flags *flag, va_list *ap);
 void	print_octal(t_flags *flag, va_list *ap);
 void	print_hexadecimal(t_flags *flag, va_list *ap);
+void	print_binary(t_flags *flag, va_list	*ap);
 
 /*
 **	print_conversion
 */
 
-void	print_char(t_flags *flag, va_list *ap);
-void	print_pointer(t_flags *flag, va_list *ap);
-void	print_str(t_flags *flag, va_list *ap);
+
 void	print_conversion(t_flags *flag, va_list *ap);
 
 /*

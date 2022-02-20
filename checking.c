@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:53:06 by ykot              #+#    #+#             */
-/*   Updated: 2022/02/15 15:53:25 by ykot             ###   ########.fr       */
+/*   Updated: 2022/02/20 15:49:00 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,16 @@ void	check_minus_arg(long long arg, t_flags *flag)
 		flag->arg_zero = 1;
 }
 
-void	check_minus_f(long double arg, t_flags *flag)
+void	check_minus_arg_f(long double *arg, t_flags *flag)
 {
-	if (arg < 0)
+	if (*arg < 0)
 	{
 		flag->negative = 1;
 		flag->space = 0;
+		*arg *= -1;
 	}
+	if (*arg == 0)
+		flag->arg_zero = 1;
 }
 
 void	check_unarg(unsigned long long arg, t_flags *flag)
