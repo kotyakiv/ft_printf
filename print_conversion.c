@@ -6,32 +6,48 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 16:02:32 by ykot              #+#    #+#             */
-/*   Updated: 2022/02/16 17:08:25 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/08 17:57:17 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+void	type_conv(int select, t_flags *flag, va_list *ap)
+{
+	t_conversion	*table[9];
+
+	table[0] = print_char;
+	table[1] = print_str;
+	table[2] = print_pointer;
+	table[3] = print_decimal;
+	table[4] = print_octal;
+	table[5] = print_hexadecimal;
+	table[6] = print_unsigned;
+	table[7] = print_float;
+	table[8] = print_binary;
+	table[select](flag, ap);
+}
 
 void	print_conversion(t_flags *flag, va_list *ap)
 {
 	if (flag->specifier == '%')
 		print_percent(flag);
 	if (flag->specifier == 'c')
-		print_char(flag, ap);
+		type_conv(0, flag, ap);
 	if (flag->specifier == 's')
-		print_str(flag, ap);
+		type_conv(1, flag, ap);
 	if (flag->specifier == 'p')
-		print_pointer(flag, ap);
+		type_conv(2, flag, ap);
 	if (flag->specifier == 'd' || flag->specifier == 'i')
-		print_decimal(flag, ap);
+		type_conv(3, flag, ap);
 	if (flag->specifier == 'o')
-		print_octal(flag, ap);
+		type_conv(4, flag, ap);
 	if (flag->specifier == 'x' || flag->specifier == 'X')
-		print_hexadecimal(flag, ap);
+		type_conv(5, flag, ap);
 	if (flag->specifier == 'u')
-		print_unsigned(flag, ap);
+		type_conv(6, flag, ap);
 	if (flag->specifier == 'f')
-		print_float(flag, ap);
+		type_conv(7, flag, ap);
 	if (flag->specifier == 'b')
-		print_binary(flag, ap);
+		type_conv(8, flag, ap);
 }

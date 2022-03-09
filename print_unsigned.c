@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:48:28 by ykot              #+#    #+#             */
-/*   Updated: 2022/02/16 17:10:08 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/08 15:14:07 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ void	print_binary(t_flags *flag, va_list	*ap)
 	}
 	print_width(flag, num_dig, 0);
 }
-
 
 void	print_hexadecimal(t_flags *flag, va_list *ap)
 {

@@ -1,22 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_float.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/08 14:43:05 by ykot              #+#    #+#             */
+/*   Updated: 2022/03/09 16:32:05 by ykot             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-long double ft_power(long double base, int exp)
-{
-	int i;
-	long double	total;
-
-	i = 0;
-	total = 0.0;
-	if (exp >= 1)
-		total = base;
-	else
-		return (1);
-	while (++i < exp)
-		total *= base;
-	return (total); 
-}
-
-void	read_arg_f(long double *arg, t_flags *flag, va_list *ap)
+static void	read_arg_f(long double *arg, t_flags *flag, va_list *ap)
 {
 	if (flag->modifier == 5)
 		*arg = va_arg(*ap, long double);
@@ -24,158 +20,58 @@ void	read_arg_f(long double *arg, t_flags *flag, va_list *ap)
 		*arg = (double) va_arg(*ap, double);
 }
 
-char *read_int_part(long double *arg)
+static long long	ft_round(long double x, t_flags *flag)
 {
-	char 		*str;
-	long double	temp;
-	int			i;
-	int			exp;
-
-	exp = 0;
-	temp = *arg;
-	while (temp >= 10.00)
-	{
-		temp /= 10;
-		++exp;
-	}
-	str = ft_strnew(exp + 1);
-	i = 0;
-	while (exp >= 0)
-	{
-		temp = *arg / ft_power(10.0, exp);
-		str[i] = (int)temp + '0';
-		*arg -= ((int)temp * ft_power(10.0, exp));
-		++i;
-		exp--;
-	}
-	return (str);
-}
-
-char *read_frac_part(long double arg)
-{
-	char 		*str;
-	int			i;
-
-	i = 0;
-	str = ft_strnew(17);
-	while (i < 16)
-	{
-		arg *= 10;
-		str[i] = (int)arg + '0'; 
-		arg -= ((int)arg);
-		++i;
-	}
-	return (str);
-}
-
-void	width_first_call_f(t_flags *flag, int num_dig)
-{
-	flag->width -= num_dig;
-	if (flag->negative || flag->plus)
-		flag->width--;
-	if (flag->arg_zero && !flag->zero && flag->precision == 0)
-		flag->width--;
-}
-
-void print_width_f(t_flags *flag, int num_dig, int first_call)
-{
-	int	i;
-
-	if (first_call)
-		width_first_call_f(flag, num_dig);
-	i = 0;
-	if (first_call && !flag->minus)
-	{
-		while (i++ < flag->width)
-		{
-			if (flag->zero)
-			{
-				ft_putchar('0');
-				flag->total++;
-			}
-			else
-				putspace(flag);
-		}
-	}
-	if (!first_call && flag->minus)
-	{
-		while (i++ < flag->width)
-			putspace(flag);
-	}
-}
-
-void	print_sign_f(t_flags *flag, int num_dig)
-{
-	if (flag->precision || !flag->zero)
-	{
-		print_width_f(flag, num_dig, 1);
-		print_sign(flag);
-	}
+	if (x < 0.0)
+		return ((long long) \
+		((x - (5 * ft_power(0.1, flag->precision + 1))) * \
+			ft_power(10, flag->precision)));
 	else
-	{
-		print_sign(flag);
-		print_width_f(flag, num_dig, 1);
-	}
+		return ((long long) \
+		((x + (5 * ft_power(0.1, flag->precision + 1))) * \
+			ft_power(10, flag->precision)));
 }
 
-void	rounding_print(t_flags flag, char *frac)
+static void	print_precision_f(int *num_dig, long double arg, t_flags *flag)
 {
-	int i;
+	long long		part_frac;
+	int				n;
 
-	i = 0;
-	while (i <= flag.precision)
+	ft_putchar('.');
+	part_frac = ft_round(arg, flag);
+	n = flag->precision - num_digit(part_frac, 10);
+	while (n)
 	{
-		ft_putchar(frac[i]);
-		++i;
+		ft_putchar('0');
+		flag->total++;
+		--n;
 	}
-}
-
-void	print_frac(t_flags *flag, char *frac)
-{
-	int len;
-	int cont;
-
-	len = 15;
-	cont = 1;
-	while (len && cont)
-	{
-		cont = 0;
-		if (frac[len] == '9')
-		{
-			cont = 1;
-			frac[len]= '0';
-			len--;
-		}
-	}
-	frac[len] += 1;
-	rounding_print(*flag, frac);
+	ft_putllnbr(part_frac);
+	*num_dig += num_digit(part_frac, 10) + 1;
 }
 
 void	print_float(t_flags *flag, va_list *ap)
 {
 	long double		arg;
-	char			*part_int;
-	char			*part_frac;
+	long long		part_int;
 	int				num_dig;
 
 	read_arg_f(&arg, flag, ap);
+	if (arg == 1.0 / 0.0)
+	{
+		ft_putstr("inf");
+		flag->total += 3;
+		return ;
+	}
 	check_minus_arg_f(&arg, flag);
-	part_int = read_int_part(&arg);
-	part_frac = read_frac_part(arg);
-	if (flag->precision)
-		num_dig = ft_strlen(part_int) + flag->precision + 1;
-	else
-		num_dig = ft_strlen(part_int);
+	part_int = (long long) arg;
+	num_dig = num_digit(part_int, 10);
+	arg -= part_int;
 	print_flag_space(flag);
 	print_sign_f(flag, num_dig);
-	ft_putstr(part_int);
+	ft_putllnbr(part_int);
 	if (flag->precision)
-	{
-		ft_putchar('.');
-		print_frac(flag, part_frac);
-	}
+		print_precision_f(&num_dig, arg, flag);
 	print_width_f(flag, num_dig, 0);
 	flag->total += num_dig;
-	ft_strdel(&part_int);
-	ft_strdel(&part_frac);
 }

@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 16:00:42 by ykot              #+#    #+#             */
-/*   Updated: 2022/02/20 14:30:56 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/08 15:11:20 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	print_sign_or_hash(t_flags *flag, int num_dig)
 	if (flag->precision != -1 || !flag->zero)
 	{
 		print_width(flag, num_dig, 1);
-		if (flag->specifier == 'd' || flag->specifier == 'i' || flag->specifier == 'f')
+		if (flag->specifier == 'd' || flag->specifier == 'i' \
+			|| flag->specifier == 'f')
 			print_sign(flag);
 		else if (!flag->arg_zero)
 			print_hash(flag);
@@ -63,7 +64,8 @@ void	print_sign_or_hash(t_flags *flag, int num_dig)
 	}
 	else
 	{
-		if (flag->specifier == 'd' || flag->specifier == 'i' || flag->specifier == 'f')
+		if (flag->specifier == 'd' || flag->specifier == 'i' \
+			|| flag->specifier == 'f')
 			print_sign(flag);
 		else if (!flag->arg_zero)
 			print_hash(flag);

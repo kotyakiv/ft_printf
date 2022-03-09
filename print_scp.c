@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:15:34 by ykot              #+#    #+#             */
-/*   Updated: 2022/02/16 16:23:50 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/08 15:40:32 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,22 @@ void	print_pointer(t_flags *flag, va_list *ap)
 
 void	print_str_null(t_flags *flag)
 {
-	flag->width -= 6;
+	if (flag->precision == -1)
+	{
+		flag->precision = 6;
+		flag->total += 6;
+		flag->width -= 6;
+	}
+	else
+	{
+		flag->width -= flag->precision;
+		if (flag->precision < 6)
+			flag->total += flag->precision;
+		else
+			flag->total += 6;
+	}
 	print_width(flag, 0, 1);
-	ft_putstr("(null)");
-	flag->total += 6;
+	write(1, "(null)", flag->precision);
 	print_width(flag, 0, 0);
 }
 
@@ -75,13 +87,7 @@ void	print_str(t_flags *flag, va_list *ap)
 	arg = va_arg(*ap, char *);
 	if (!arg)
 	{
-		if (flag->precision >= 6 || flag->precision == -1)
-		{
-			print_str_null(flag);
-			return ;
-		}
-		print_width(flag, 0, 1);
-		print_width(flag, 0, 0);
+		print_str_null(flag);
 		return ;
 	}
 	len = ft_smaller(flag->precision, ft_strlen(arg));

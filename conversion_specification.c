@@ -6,13 +6,13 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:51:16 by ykot              #+#    #+#             */
-/*   Updated: 2022/02/20 14:45:31 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/08 15:02:52 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void flag_init(t_flags *flag)
+static void	flag_init(t_flags *flag)
 {
 	flag->hash = 0;
 	flag->zero = 0;
@@ -29,7 +29,7 @@ void flag_init(t_flags *flag)
 	flag->specifier = '!';
 }
 
-void flags_override(t_flags *flag)
+static void	flags_override(t_flags *flag)
 {
 	if (flag->space && flag->plus)
 		flag->space = 0;
@@ -47,7 +47,7 @@ void flags_override(t_flags *flag)
 		flag->precision = 6;
 }
 
-void	read_specifier(const char *str, int *i, t_flags *flag)
+static void	read_specifier(const char *str, int *i, t_flags *flag)
 {
 	if (str[*i] == 'd' || str[*i] == 'i' || str[*i] == 'x' || \
 		str[*i] == 'X' || str[*i] == 'o' || str[*i] == 'c' || \
@@ -56,13 +56,15 @@ void	read_specifier(const char *str, int *i, t_flags *flag)
 		flag->specifier = str[*i];
 }
 
-void	conversion_specification(const char *str, int *i, t_flags *flag, va_list *ap)
+void	conv_spec(const char *str, int *i, t_flags *flag, va_list *ap)
 {
 	flag_init(flag);
 	read_flags(str, i, flag);
 	if (str[*i] == '*')
 		read_star(i, flag, ap, 0);
 	else
+		read_precision_width(str, i, flag, 0);
+	if (str[*i] >= '0' && str[*i] <= '9')
 		read_precision_width(str, i, flag, 0);
 	if (str[*i] == '.')
 	{
@@ -71,6 +73,8 @@ void	conversion_specification(const char *str, int *i, t_flags *flag, va_list *a
 			read_star(i, flag, ap, 1);
 		else
 			read_precision_width(str, i, flag, 1);
+		if (str[*i] >= '0' && str[*i] <= '9')
+			read_precision_width(str, i, flag, 0);
 	}
 	read_modifier(str, i, flag);
 	read_specifier(str, i, flag);
