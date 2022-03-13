@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:51:09 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/08 15:05:17 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/13 00:07:01 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ int	ft_printf(const char *str, ...)
 				break ;
 			conv_spec(str, &i, &flag, &ap);
 			print_conversion(&flag, &ap);
+			if (flag.total == -1)
+			{
+				va_end(ap);
+				return (-1);
+			}
 			total += flag.total;
 		}
 		else
