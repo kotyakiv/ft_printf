@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:50:55 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/09 12:44:29 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/13 16:39:19 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_flags
 	int		negative;
 	int		arg_zero;
 	int		zero_printed;
+	int		int_round;
 	int		total;
 }				t_flags;
 
@@ -144,9 +145,25 @@ void		print_float(t_flags *flag, va_list *ap);
 */
 
 long double	ft_power(long double base, int exp);
+void		read_arg_f(long double *arg, t_flags *flag, va_list *ap);
+char		*read_int_part(long double *arg);
+char		*read_frac_part(long double arg, t_flags *flag);
+
+/*
+**	print_float3
+*/
+
 void		width_first_call_f(t_flags *flag, int num_dig);
 void		print_width_f(t_flags *flag, int num_dig, int first_call);
 void		print_sign_f(t_flags *flag, int num_dig);
+
+/*
+**	rounding
+*/
+
+int			bank_round(long double arg, char *part_int, t_flags *flag);
+void		round_int(char **str, int is_int_part, t_flags *flag, int modflag);
+void		rounding(char **str, int is_int_part, t_flags *flag);
 
 /*
 **	function dispatcher

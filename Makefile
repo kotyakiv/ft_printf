@@ -6,13 +6,26 @@
 #    By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/08 16:54:21 by ykot              #+#    #+#              #
-#    Updated: 2022/03/09 12:36:44 by ykot             ###   ########.fr        #
+#    Updated: 2022/03/13 15:17:44 by ykot             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = ft_printf.c print_conversion.c conversion_specification.c to_base.c \
-print_decimal.c sub_functions.c print_flags.c print_unsigned.c print_float.c \
-checking.c reading_option.c width_precision.c print_scp.c print_float2.c
+SRC = 		ft_printf.c \
+			print_conversion.c \
+			conversion_specification.c \
+			to_base.c \
+			print_decimal.c \
+			sub_functions.c \
+			print_flags.c \
+			print_unsigned.c \
+			checking.c \
+			reading_option.c \
+			width_precision.c \
+			print_scp.c \
+			print_float.c \
+			print_float2.c \
+			print_float3.c \
+			rounding.c
 
 OBJ = $(SRC:.c=.o)
 

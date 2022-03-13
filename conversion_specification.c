@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:51:16 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/08 15:02:52 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/13 13:28:30 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	flag_init(t_flags *flag)
 	flag->negative = 0;
 	flag->arg_zero = 0;
 	flag->zero_printed = 0;
+	flag->int_round = 0;
 	flag->total = 0;
 	flag->specifier = '!';
 }

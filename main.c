@@ -1,12 +1,15 @@
 #include <stdio.h>
-
-int ft_printf(const char *str, ...);
+#include "ft_printf.h"
 
 int main()
 {
-	//int a;
+	double a = 990090.095994849;
+	int b;
 
-	printf("%f\n", 5.00001);
-    ft_printf("%f\n", 5.00001);
+	/*b = printf("%.214748f\n", a);
+	printf("%d\n", b);*/
+	b = ft_printf("%21474836475f\n", a);
+	printf("%d\n", b);
+
 	return 0;
 }

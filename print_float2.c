@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/08 14:42:37 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/09 16:27:17 by ykot             ###   ########.fr       */
+/*   Created: 2022/03/13 15:09:43 by ykot              #+#    #+#             */
+/*   Updated: 2022/03/13 16:16:53 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,54 +28,63 @@ long double	ft_power(long double base, int exp)
 	return (total);
 }
 
-void	width_first_call_f(t_flags *flag, int num_dig)
+void	read_arg_f(long double *arg, t_flags *flag, va_list *ap)
 {
-	flag->width -= num_dig;
-	if (flag->negative || flag->plus)
-		flag->width--;
-	if (flag->arg_zero && !flag->zero && flag->precision == 0)
-		flag->width--;
-}
-
-void	print_width_f(t_flags *flag, int num_dig, int first_call)
-{
-	int	i;
-
-	if (first_call)
-		width_first_call_f(flag, num_dig);
-	i = 0;
-	if (first_call && !flag->minus)
-	{
-		while (i++ < flag->width)
-		{
-			if (flag->zero)
-			{
-				ft_putchar('0');
-				flag->total++;
-			}
-			else
-				putspace(flag);
-		}
-	}
-	if (!first_call && flag->minus)
-	{
-		while (i++ < flag->width)
-			putspace(flag);
-	}
-}
-
-void	print_sign_f(t_flags *flag, int num_dig)
-{
-	if (flag->precision)
-		flag->width -= (flag->precision);
-	if (flag->precision || !flag->zero)
-	{
-		print_width_f(flag, num_dig, 1);
-		print_sign(flag);
-	}
+	if (flag->modifier == 5)
+		*arg = va_arg(*ap, long double);
 	else
+		*arg = (double) va_arg(*ap, double);
+}
+
+char	*read_int_part(long double *arg)
+{
+	char		*str;
+	long double	temp;
+	int			i;
+	int			exp;
+
+	exp = 0;
+	temp = *arg;
+	while (temp >= 10.00)
 	{
-		print_sign(flag);
-		print_width_f(flag, num_dig, 1);
+		temp /= 10;
+		++exp;
 	}
+	str = ft_strnew(exp + 1);
+	i = 0;
+	while (exp >= 0)
+	{
+		temp = *arg / ft_power(10.0, exp);
+		str[i] = (int)temp + '0';
+		*arg -= ((int)temp * ft_power(10.0, exp));
+		++i;
+		exp--;
+	}
+	return (str);
+}
+
+char	*read_frac_part(long double arg, t_flags *flag)
+{
+	char		*str;
+	char		*temp;
+	int			i;
+
+	i = 0;
+	str = ft_strnew(flag->precision + 1);
+	if (!str)
+		return (NULL);
+	while (i < flag->precision + 1)
+	{
+		arg *= 10;
+		str[i] = (int)arg + '0';
+		arg -= ((int)arg);
+		++i;
+	}
+	rounding(&str, 0, flag);
+	temp = ft_strsub(str, 0, ft_strlen(str) - 1);
+	if (!temp)
+		return (NULL);
+	ft_strdel(&str);
+	str = temp;
+	return (str);
 }
