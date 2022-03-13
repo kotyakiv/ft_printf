@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 15:10:47 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/13 15:49:24 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/13 17:28:27 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ void	print_width_f(t_flags *flag, int num_dig, int first_call)
 			if (flag->zero)
 			{
 				ft_putchar('0');
-				flag->total++;
+				g_total++;
 			}
 			else
-				putspace(flag);
+				putspace();
 		}
 	}
 	if (!first_call && flag->minus)
 	{
 		while (i++ < flag->width)
-			putspace(flag);
+			putspace();
 	}
 }
 

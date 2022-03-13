@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/28 20:10:34 by ykot              #+#    #+#             */
-/*   Updated: 2021/12/08 23:26:19 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/13 17:52:43 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
+
 # define BUFF_SIZE 32
+
 typedef struct s_list
 {
 	void			*content;

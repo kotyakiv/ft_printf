@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 13:30:30 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/13 16:39:45 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/13 17:23:01 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	print_float(t_flags *flag, va_list *ap)
 		ft_putstr(part_frac);
 	}
 	print_width_f(flag, num_dig, 0);
-	flag->total += num_dig;
+	g_total += num_dig;
 	ft_strdel(&part_int);
 	if (flag->precision)
 		ft_strdel(&part_frac);

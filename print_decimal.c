@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:50:20 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/08 15:10:45 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/13 17:22:41 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ void	print_decimal(t_flags *flag, va_list *ap)
 	if (arg)
 	{
 		ft_putllnbr(arg);
-		flag->total += num_dig;
+		g_total += num_dig;
 	}
 	else if (!flag->zero_printed && flag->precision)
 	{
 		ft_putchar('0');
-		flag->total++;
+		g_total++;
 	}
 	print_width(flag, num_dig, 0);
 }

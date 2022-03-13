@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 15:12:10 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/13 16:47:26 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/13 17:52:04 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ int	bank_round(long double arg, char *part_int, t_flags *flag)
 	}
 	if (part_int[len - 1] % 2)
 		flag->int_round = 1;
-		return (0);
+	return (0);
 }
 
-void	round_int(char **str, int is_int_part, t_flags *flag, int modflag)
+int	round_int(char **str, int is_int_part, t_flags *flag, int modflag)
 {
 	char	*temp;
 

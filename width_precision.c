@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:56:03 by ykot              #+#    #+#             */
-/*   Updated: 2022/02/20 14:15:58 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/13 17:27:54 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	print_precision(t_flags *flag, int num_dig)
 	while (i++ < flag->precision - num_dig)
 	{
 		ft_putchar('0');
-		flag->total++;
+		g_total++;
 		flag->zero_printed = 1;
 	}
 }
@@ -42,10 +42,10 @@ void	width_first_call(t_flags *flag, int num_dig)
 		flag->width -= ft_bigger(flag->precision, num_dig);
 }
 
-void	putspace(t_flags *flag)
+void	putspace(void)
 {
 	ft_putchar(' ');
-	flag->total++;
+	g_total++;
 }
 
 void	print_width(t_flags *flag, int num_dig, int first_call)
@@ -63,15 +63,15 @@ void	print_width(t_flags *flag, int num_dig, int first_call)
 			{
 				ft_putchar('0');
 				flag->zero_printed = 1;
-				flag->total++;
+				g_total++;
 			}
 			else
-				putspace(flag);
+				putspace();
 		}
 	}
 	if (!first_call && flag->minus)
 	{
 		while (i++ < flag->width)
-			putspace(flag);
+			putspace();
 	}
 }

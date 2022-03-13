@@ -6,16 +6,16 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:51:09 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/13 15:50:52 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/13 17:48:13 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	print_one_char(const char *str, int *total, int i)
+static void	print_one_char(const char *str, int i)
 {
 	ft_putchar(str[i]);
-	(*total)++;
+	g_total++;
 }
 
 int	ft_printf(const char *str, ...)
@@ -23,26 +23,26 @@ int	ft_printf(const char *str, ...)
 	va_list	ap;
 	t_flags	flag;
 	int		i;
-	int		total;
 
-	total = 0;
-	i = 0;
+	i = -1;
+	g_total = 0;
 	va_start(ap, str);
-	while (str[i])
+	while (str[++i])
 	{
 		if (str[i] == '%')
 		{
 			++i;
 			if (!str[i])
 				break ;
-			conv_spec(str, &i, &flag, &ap);
-			print_conversion(&flag, &ap);
-			total += flag.total;
+			if (conv_spec(str, &i, &flag, &ap) || print_conv(&flag, &ap))
+			{
+				va_end(ap);
+				return (-1);
+			}
 		}
 		else
-			print_one_char(str, &total, i);
-		++i;
+			print_one_char(str, i);
 	}
 	va_end(ap);
-	return (total);
-}	
+	return (g_total);
+}

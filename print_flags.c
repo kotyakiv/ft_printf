@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 16:00:42 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/08 15:11:20 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/13 17:22:53 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ void	print_hash(t_flags *flag)
 		if (flag->specifier == 'o' || flag->specifier == 'b')
 		{
 			ft_putchar('0');
-			flag->total++;
+			g_total++;
 		}
 		if (flag->specifier == 'x')
 		{
 			ft_putstr("0x");
-			flag->total += 2;
+			g_total += 2;
 		}
 		if (flag->specifier == 'X')
 		{
 			ft_putstr("0X");
-			flag->total += 2;
+			g_total += 2;
 		}
 	}
 }
@@ -39,12 +39,12 @@ void	print_sign(t_flags *flag)
 	if (flag->negative)
 	{
 		ft_putchar('-');
-		flag->total++;
+		g_total++;
 	}
 	else if (flag->plus)
 	{
 		ft_putchar('+');
-		flag->total++;
+		g_total++;
 	}
 }
 
@@ -80,7 +80,7 @@ void	print_flag_space(t_flags *flag)
 	if (flag->space)
 	{
 		ft_putchar(' ');
-		flag->total++;
+		g_total++;
 		if (flag->width)
 			flag->width--;
 	}
