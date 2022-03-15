@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 15:12:10 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/13 17:52:04 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/14 11:35:09 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,18 @@ int	round_int(char **str, int is_int_part, t_flags *flag, int modflag)
 	{
 		temp = ft_strjoin("1", *str);
 		free(*str);
+		if (!temp)
+			return (-1);
 		*str = temp;
 	}
 	else if (is_int_part && flag->int_round)
 		(*str)[ft_strlen(*str) - 1]++;
 	if (modflag && !is_int_part)
 		flag->int_round = 1;
+	return (0);
 }
 
-void	rounding(char **str, int is_int_part, t_flags *flag)
+int	rounding(char **str, int is_int_part, t_flags *flag)
 {
 	int	i;
 	int	modflag;
@@ -77,5 +80,7 @@ void	rounding(char **str, int is_int_part, t_flags *flag)
 		else if (flag->int_round && is_int_part)
 			flag->int_round = 0;
 	}
-	round_int(str, is_int_part, flag, modflag);
+	if (round_int(str, is_int_part, flag, modflag) == -1)
+		return (-1);
+	return (0);
 }

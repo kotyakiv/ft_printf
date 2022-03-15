@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:56:03 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/13 17:27:54 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/14 12:23:50 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	width_first_call(t_flags *flag, int num_dig)
 		flag->width--;
 		return ;
 	}
-	if (flag->specifier == 's')
+	if (flag->specifier == 's' || flag->specifier == '%')
 		flag->width -= ft_smaller(flag->precision, num_dig);
 	else
 		flag->width -= ft_bigger(flag->precision, num_dig);

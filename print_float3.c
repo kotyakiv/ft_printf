@@ -6,11 +6,27 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 15:10:47 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/13 17:28:27 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/15 14:25:57 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+long double	ft_power(long double base, int exp)
+{
+	int			i;
+	long double	total;
+
+	i = 0;
+	total = 0.0;
+	if (exp >= 1)
+		total = base;
+	else
+		return (1);
+	while (++i < exp)
+		total *= base;
+	return (total);
+}
 
 void	width_first_call_f(t_flags *flag, int num_dig)
 {
@@ -18,6 +34,8 @@ void	width_first_call_f(t_flags *flag, int num_dig)
 	if (flag->negative || flag->plus)
 		flag->width--;
 	if (flag->arg_zero && !flag->zero && flag->precision == 0)
+		flag->width--;
+	if (flag->hash || flag->precision)
 		flag->width--;
 }
 

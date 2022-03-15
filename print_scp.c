@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/16 16:15:34 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/13 17:23:18 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/14 13:01:41 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	print_percent(t_flags *flag)
 	print_width(flag, 1, 1);
 	ft_putchar('%');
 	g_total++;
+	if (flag->precision == 0)
+		flag->width--;
 	print_width(flag, 1, 0);
 }
 
@@ -59,23 +61,22 @@ void	print_pointer(t_flags *flag, va_list *ap)
 
 void	print_str_null(t_flags *flag)
 {
-	if (flag->precision == -1)
+	if (flag->precision == -1 || flag->precision >= 6)
 	{
-		flag->precision = 6;
 		g_total += 6;
 		flag->width -= 6;
+		print_width(flag, 0, 1);
+		write(1, "(null)", 6);
+		print_width(flag, 0, 0);
 	}
 	else
 	{
 		flag->width -= flag->precision;
-		if (flag->precision < 6)
-			g_total += flag->precision;
-		else
-			g_total += 6;
+		g_total += flag->precision;
+		print_width(flag, 0, 1);
+		write(1, "(null)", flag->precision);
+		print_width(flag, 0, 0);
 	}
-	print_width(flag, 0, 1);
-	write(1, "(null)", flag->precision);
-	print_width(flag, 0, 0);
 }
 
 void	print_str(t_flags *flag, va_list *ap)

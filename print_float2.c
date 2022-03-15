@@ -6,27 +6,11 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/13 15:09:43 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/13 16:16:53 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/15 14:31:30 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-long double	ft_power(long double base, int exp)
-{
-	int			i;
-	long double	total;
-
-	i = 0;
-	total = 0.0;
-	if (exp >= 1)
-		total = base;
-	else
-		return (1);
-	while (++i < exp)
-		total *= base;
-	return (total);
-}
 
 void	read_arg_f(long double *arg, t_flags *flag, va_list *ap)
 {
@@ -34,6 +18,14 @@ void	read_arg_f(long double *arg, t_flags *flag, va_list *ap)
 		*arg = va_arg(*ap, long double);
 	else
 		*arg = (double) va_arg(*ap, double);
+}
+
+int	count_dig(char	*part_int, t_flags *flag)
+{
+	if (flag->precision)
+		return (ft_strlen(part_int) + flag->precision);
+	else
+		return (ft_strlen(part_int));
 }
 
 char	*read_int_part(long double *arg)
@@ -51,6 +43,8 @@ char	*read_int_part(long double *arg)
 		++exp;
 	}
 	str = ft_strnew(exp + 1);
+	if (!str)
+		return (NULL);
 	i = 0;
 	while (exp >= 0)
 	{
@@ -63,17 +57,29 @@ char	*read_int_part(long double *arg)
 	return (str);
 }
 
+static int	set_prec_f(char **str, t_flags *flag)
+{
+	if (flag->precision > 310)
+	{
+		*str = ft_strnew(310);
+		return (310);
+	}
+	*str = ft_strnew(flag->precision + 1);
+	return (flag->precision + 1);
+}
+
 char	*read_frac_part(long double arg, t_flags *flag)
 {
 	char		*str;
 	char		*temp;
 	int			i;
+	int			j;
 
 	i = 0;
-	str = ft_strnew(flag->precision + 1);
+	j = set_prec_f(&str, flag);
 	if (!str)
 		return (NULL);
-	while (i < flag->precision + 1)
+	while (i < j)
 	{
 		arg *= 10;
 		str[i] = (int)arg + '0';
@@ -82,9 +88,9 @@ char	*read_frac_part(long double arg, t_flags *flag)
 	}
 	rounding(&str, 0, flag);
 	temp = ft_strsub(str, 0, ft_strlen(str) - 1);
+	ft_strdel(&str);
 	if (!temp)
 		return (NULL);
-	ft_strdel(&str);
 	str = temp;
 	return (str);
 }

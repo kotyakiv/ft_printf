@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:50:55 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/13 17:39:29 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/15 14:14:00 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FT_PRINTF_H
 # include <stdarg.h>
 # include "libft/libft.h"
+# define MAX_WP 21474836
 
 int				g_total;
 
@@ -146,6 +147,7 @@ void			print_float(t_flags *flag, va_list *ap);
 */
 
 long double		ft_power(long double base, int exp);
+int				count_dig(char	*part_int, t_flags *flag);
 void			read_arg_f(long double *arg, t_flags *flag, va_list *ap);
 char			*read_int_part(long double *arg);
 char			*read_frac_part(long double arg, t_flags *flag);
@@ -163,8 +165,8 @@ void			print_sign_f(t_flags *flag, int num_dig);
 */
 
 int				bank_round(long double arg, char *part_int, t_flags *flag);
-void			round_int(char **str, int is_int_part, t_flags *flag, int m);
-void			rounding(char **str, int is_int_part, t_flags *flag);
+int				round_int(char **str, int is_int_part, t_flags *flag, int m);
+int				rounding(char **str, int is_int_part, t_flags *flag);
 
 /*
 **	function dispatcher

@@ -6,7 +6,7 @@
 /*   By: ykot <ykot@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 15:51:16 by ykot              #+#    #+#             */
-/*   Updated: 2022/03/13 17:48:32 by ykot             ###   ########.fr       */
+/*   Updated: 2022/03/15 14:15:30 by ykot             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ static void	flag_init(t_flags *flag)
 
 static void	flags_override(t_flags *flag)
 {
+	if (flag->plus && flag->specifier != 'i' && flag->specifier != 'd' \
+		&& flag->specifier != 'f')
+		flag->plus = 0;
 	if (flag->space && flag->plus)
 		flag->space = 0;
 	if (flag->minus && flag->zero)
@@ -58,7 +61,7 @@ static void	read_specifier(const char *str, int *i, t_flags *flag)
 
 static int	max_wid_prec(t_flags *flag)
 {
-	return (flag->precision > 1048576 || flag->width > 1048576);
+	return (flag->precision > MAX_WP || flag->width > MAX_WP);
 }
 
 int	conv_spec(const char *str, int *i, t_flags *flag, va_list *ap)
